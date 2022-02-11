@@ -1,0 +1,7 @@
+#!/bin/sh
+# Reads data from STDIN and draws a frequency histogram.
+# Usage: hist [plot function] [plotchar]
+# "plot function" is any valid perl expression, with "x" being the value.
+e="$(printf '%s' "${1:-x}" | perl -pe 's/x/\$F[0]/g;s/\\\$F\[0\]/x/g')"
+c="${2:-#}"
+sort | uniq -c | perl -lane 'print "$F[1]\t$F[0]\t", "'"$c"'"x('"$e"')'
